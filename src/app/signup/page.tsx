@@ -1,19 +1,53 @@
 "use client";
 
+import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: "",
     username: "",
   });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const onSignup = async () => {};
+  const onSignup = async () => {
+    try {
+      setButtonDisabled(true);
+
+      await axios.post("/api/users/signup", user);
+
+      router.push("/login");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    } finally {
+      setButtonDisabled(false);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.username.length > 0
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <Toaster />
       <h1>Sign Up</h1>
       <hr />
       <label htmlFor="username">Username</label>
@@ -47,6 +81,7 @@ export default function SignUpPage() {
         placeholder="Password"
       />
       <button
+        disabled={buttonDisabled}
         onClick={onSignup}
         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
       >
