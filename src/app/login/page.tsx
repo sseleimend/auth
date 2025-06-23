@@ -19,7 +19,7 @@ export default function LoginPage() {
     try {
       setButtonDisabled(true);
 
-      const response = await axios.post("/api/users/login", user);
+      await axios.post("/api/users/login", user);
 
       toast.success("Login success");
 
