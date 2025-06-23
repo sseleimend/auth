@@ -3,9 +3,9 @@
 import axios from "axios";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
-export default function VerifyEmail() {
+function Search() {
   const searchParams = useSearchParams();
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState(false);
@@ -42,5 +42,13 @@ export default function VerifyEmail() {
       {verified && <Link href="/login">Login</Link>}
       {error && <h2 className="text-2xl bg-red-500 text-black">Error</h2>}
     </div>
+  );
+}
+
+export default function VerifyEmail() {
+  return (
+    <Suspense>
+      <Search />
+    </Suspense>
   );
 }
