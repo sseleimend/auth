@@ -1,10 +1,13 @@
-interface PageProps {
-  params: {
-    id: string;
-  };
+interface ProfileParams {
+  id: string;
 }
 
-export default function Profile({ params }: PageProps) {
+interface ProfileProps {
+  params: ProfileParams;
+}
+
+export default function Profile(props: ProfileProps) {
+  const { params } = props;
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>
