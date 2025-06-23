@@ -1,4 +1,8 @@
-export default function Profile({ params }: { params: { id: string } }) {
+interface ProfilePageProps {
+  params: { id: string };
+}
+
+export default function Profile({ params }: ProfilePageProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>
